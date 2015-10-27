@@ -1,4 +1,4 @@
+ProdPage/extra-files/
 ProdPage/.classpath
 ProdPage/bin/
-ProdPage/extra-files/chromedriver.exe
-ProdPage/extra-files/output.txt
+ProdPage/test-output/
