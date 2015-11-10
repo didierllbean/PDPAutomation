@@ -55,6 +55,11 @@ public class NewPDP extends Util.Settings implements PDP {
 
 	}
 	
+	public boolean verifySwatches() {
+		
+		return false;
+	}
+	
 	// Validates if the hero image and the alternate views are being displayed
 	public boolean verifyImage(String pageNumber) {
 		Boolean HImage = true;

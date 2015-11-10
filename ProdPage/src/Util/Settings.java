@@ -29,13 +29,13 @@ public class Settings {
 	public void testSetUp(){
 		
 		//Prints all the messages and errors to output.txt
-		try {
+		/*try {
 			System.setOut(new PrintStream(new FileOutputStream(System.getProperty("user.dir")+"\\extra-files\\output.txt")));
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Couldn't find output.txt");
 	    	System.out.println(e);
 	    	System.exit(1);
-		}
+		}*/
 		
 		//Sets up the Chrome driver
 		String url = System.getProperty("user.dir")+"\\extra-files\\chromedriver.exe";

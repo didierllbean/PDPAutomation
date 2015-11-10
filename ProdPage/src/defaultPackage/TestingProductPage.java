@@ -19,7 +19,7 @@ public class TestingProductPage extends Util.Settings {
 	public void test() throws IOException, FileNotFoundException{
 		
 		//Sets the url to production or stage accordingly
-		String url = "http://"+ (production?"www":"ecwebs01") + ".llbean.com/llb/shop/";
+		String url = "http://"+ (production?"www":"ecwebq13") + ".llbean.com/llb/shop/";
 		
 		//Gets the HP to set the cookies
 		driver.get(url+0);
@@ -82,6 +82,7 @@ public class TestingProductPage extends Util.Settings {
 				pdp.isProductAvailable();
 				pdp.validateSizeChart();
 				pdp.validateBreadcrum();
+				pdp.verifySwatches();
 				pdp.verifyImage(pageNumber);
 				pdp.validateCopyExist();
 				

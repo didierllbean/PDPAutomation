@@ -1,7 +1,16 @@
 package defaultPackage;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -53,6 +62,60 @@ public class OldPDP extends Util.Settings implements PDP {
 		}
 		return sizeChart;
 
+	}
+	
+	public boolean verifySwatches() {
+		boolean hasSwatches = false;
+		boolean goodSwatches = true;
+		try{
+			String styleAttr = driver.findElement(By.xpath(Selector.OLDSWATCHES)).getAttribute("style");
+			hasSwatches = true;
+			
+			int removePosition = styleAttr.indexOf("&defaultImage");
+			String url = styleAttr.substring(16, styleAttr.indexOf('?')+1);
+			String params = styleAttr.substring(styleAttr.indexOf('?')+1,removePosition);
+			
+			try {
+				goodSwatches = brokenSwatches(url+URLEncoder.encode(params,java.nio.charset.StandardCharsets.UTF_8.toString() ));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			
+		}catch(NoSuchElementException n){
+			Reporter.log("<span style=\"color:red\">Swatches are not present</span><br>");
+		}
+		
+		
+		try{
+			
+		}catch(NullPointerException e){
+			e.printStackTrace();
+		}
+		
+		return hasSwatches;
+	}
+	
+	private boolean brokenSwatches(String url){
+		
+		System.out.println(url);
+		 boolean brokenSwatches = true;
+		 try {
+			
+			HttpClient client = HttpClientBuilder.create().build();
+			HttpGet request = new HttpGet(url);
+			HttpResponse response = client.execute(request);
+			
+			Header[] header = response.getHeaders("Content-Type");
+			
+			brokenSwatches = header[0].getValue().equals("image/jpeg")? false : true;
+
+			System.out.println(header[0]+" "+brokenSwatches);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+		
+		
+		return false;
 	}
 	
 	// Validates if the hero image and the alternate views are being displayed
