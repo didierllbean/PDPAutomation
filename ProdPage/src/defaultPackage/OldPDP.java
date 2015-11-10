@@ -66,7 +66,7 @@ public class OldPDP extends Util.Settings implements PDP {
 	
 	public boolean verifySwatches() {
 		boolean hasSwatches = false;
-		boolean goodSwatches = true;
+		boolean workingSwatches = true;
 		try{
 			String styleAttr = driver.findElement(By.xpath(Selector.OLDSWATCHES)).getAttribute("style");
 			hasSwatches = true;
@@ -74,31 +74,27 @@ public class OldPDP extends Util.Settings implements PDP {
 			int removePosition = styleAttr.indexOf("&defaultImage");
 			String url = styleAttr.substring(16, styleAttr.indexOf('?')+1);
 			String params = styleAttr.substring(styleAttr.indexOf('?')+1,removePosition);
+			params = params.replace('{', '(');
+			params = params.replace('}', ')');
 			
-			try {
-				goodSwatches = brokenSwatches(url+URLEncoder.encode(params,java.nio.charset.StandardCharsets.UTF_8.toString() ));
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
+			String fullURL = url+params;
+			workingSwatches = brokenSwatches(fullURL);
+			
+			if(!workingSwatches){
+				Reporter.log("<span style=\"color:red\">Swatches are broken</span><br>");
 			}
 			
-		}catch(NoSuchElementException n){
+		}catch(Exception n){
+			n.printStackTrace();
 			Reporter.log("<span style=\"color:red\">Swatches are not present</span><br>");
 		}
 		
-		
-		try{
-			
-		}catch(NullPointerException e){
-			e.printStackTrace();
-		}
-		
-		return hasSwatches;
+		return hasSwatches && workingSwatches;
 	}
 	
 	private boolean brokenSwatches(String url){
 		
-		System.out.println(url);
-		 boolean brokenSwatches = true;
+		 boolean workingSwatches = false;
 		 try {
 			
 			HttpClient client = HttpClientBuilder.create().build();
@@ -107,15 +103,15 @@ public class OldPDP extends Util.Settings implements PDP {
 			
 			Header[] header = response.getHeaders("Content-Type");
 			
-			brokenSwatches = header[0].getValue().equals("image/jpeg")? false : true;
+			workingSwatches = header[0].getValue().equals("image/jpeg")? true : false;
 
-			System.out.println(header[0]+" "+brokenSwatches);
+			System.out.println(header[0]+" "+workingSwatches);
+			
+			return workingSwatches;
 	    } catch (Exception e) {
 	    	e.printStackTrace();
+	    	return false;
 	    }
-		
-		
-		return false;
 	}
 	
 	// Validates if the hero image and the alternate views are being displayed
