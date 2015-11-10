@@ -64,13 +64,17 @@ public class OldPDP extends Util.Settings implements PDP {
 
 	}
 	
+	//Verifies if the page has swatches and if they aren't broken
 	public boolean verifySwatches() {
 		boolean hasSwatches = false;
-		boolean workingSwatches = true;
+		boolean goodSwatches = true;
 		try{
+			//Obtains the style attribute in the xpath selector
 			String styleAttr = driver.findElement(By.xpath(Selector.OLDSWATCHES)).getAttribute("style");
 			hasSwatches = true;
 			
+			/*This style attribute has something similar to: background:url(//ecdiss.llbean.com/is/image?src=is{wim/270133_206_43/lg}&layer=2&defaultImage=llbean/pTiff/missing_swatch.tif
+			this has to be cleaned and remove everything from &defaultImage to the right and has to replace every { with a ( */
 			int removePosition = styleAttr.indexOf("&defaultImage");
 			String url = styleAttr.substring(16, styleAttr.indexOf('?')+1);
 			String params = styleAttr.substring(styleAttr.indexOf('?')+1,removePosition);
@@ -78,38 +82,45 @@ public class OldPDP extends Util.Settings implements PDP {
 			params = params.replace('}', ')');
 			
 			String fullURL = url+params;
-			workingSwatches = brokenSwatches(fullURL);
+			goodSwatches = goodSwatches(fullURL);
 			
-			if(!workingSwatches){
+			if(!goodSwatches){
+				//if the swatches are not working is because the link is broken
 				Reporter.log("<span style=\"color:red\">Swatches are broken</span><br>");
 			}
 			
 		}catch(Exception n){
 			n.printStackTrace();
+			//If an exception was thrown is because the swatches are not in the page
 			Reporter.log("<span style=\"color:red\">Swatches are not present</span><br>");
 		}
 		
-		return hasSwatches && workingSwatches;
+		return hasSwatches && goodSwatches;
 	}
 	
-	private boolean brokenSwatches(String url){
+	/*To check if the swatches are working correctly it has to make a GET request from the server
+	  with the URL, if the Content-Type is image/jpeg the swatches are correct. If it returns text/plain
+	  means that no swatches were found */
+	private boolean goodSwatches(String url){
 		
-		 boolean workingSwatches = false;
+		 boolean goodSwatches = false;
 		 try {
 			
+			//Creates the client to make the request
 			HttpClient client = HttpClientBuilder.create().build();
 			HttpGet request = new HttpGet(url);
 			HttpResponse response = client.execute(request);
 			
+			//Gets the header with title Content-Type
 			Header[] header = response.getHeaders("Content-Type");
 			
-			workingSwatches = header[0].getValue().equals("image/jpeg")? true : false;
-
-			System.out.println(header[0]+" "+workingSwatches);
+			//Checks the first header returned to see if it equals image/jpeg
+			goodSwatches = header[0].getValue().equals("image/jpeg")? true : false;
 			
-			return workingSwatches;
+			return goodSwatches;
 	    } catch (Exception e) {
 	    	e.printStackTrace();
+	    	//If an exception is thrown returns false because there was an error 
 	    	return false;
 	    }
 	}

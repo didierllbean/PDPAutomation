@@ -12,7 +12,7 @@ public final class Selector {
 	public static final String APP = "#alternateProductPage";
 	public static final String NAME = "[itemprop=name]";
 	public static final String ORDOPTCONT = "#data_0";
-	public static final String OLDSWATCHES = "//*[@id=\"colorSwatchContainer0_0_0\"]/ul/li[2]/a";
+	public static final String OLDSWATCHES = "//*[@id='colorSwatchContainer0_0_0']/ul/li[1]/a";
 	public static final String TABS_UL = "#ppItemTabs";
 	public static final String PROD_AVAIL = ".ppItemUnavailable";
 	public static final String ITM_PRICE = ".ppItemPriceContainer";
