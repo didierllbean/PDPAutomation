@@ -1,9 +1,5 @@
 package defaultPackage;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.List;
 
 import org.apache.http.Header;
