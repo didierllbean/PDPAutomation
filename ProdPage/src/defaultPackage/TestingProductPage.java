@@ -82,6 +82,7 @@ public class TestingProductPage extends Util.Settings {
 				pdp.isProductAvailable();
 				pdp.validateSizeChart();
 				pdp.validateBreadcrum();
+				pdp.verifySwatches();
 				pdp.verifyImage(pageNumber);
 				pdp.validateCopyExist();
 				
