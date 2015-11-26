@@ -200,7 +200,7 @@ public class FirstScreen extends JFrame implements Runnable {
 		contentPane.add(lblProductPages);
 		
 		//Creates a comboBox to select the type of PDP desired
-		String[] options = {"Both PDP","Old PDP","New PDP"};
+		String[] options = {"New PDP","Old PDP","Both PDP"};
 		comboBox = new JComboBox(options);
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		comboBox.setSelectedIndex(0);

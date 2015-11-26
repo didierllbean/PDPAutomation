@@ -94,6 +94,11 @@ public class OldPDP extends Util.Settings implements PDP {
 		return hasSwatches && goodSwatches;
 	}
 	
+	public boolean verifySaleSwatches(){
+		//Not yet implemented
+		return false;
+	}
+	
 	/*To check if the swatches are working correctly it has to make a GET request from the server
 	  with the URL, if the Content-Type is image/jpeg the swatches are correct. If it returns text/plain
 	  means that no swatches were found */

@@ -101,8 +101,6 @@ public class NewPDP extends Util.Settings implements PDP {
 			
 			workingSwatches = header[0].getValue().equals("image/jpeg")? true : false;
 
-			System.out.println(header[0]+" "+workingSwatches);
-			
 			return workingSwatches;
 	    } catch (Exception e) {
 	    	e.printStackTrace();

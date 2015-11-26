@@ -1,8 +1,0 @@
-Driver found in: C:\Users\anunez\git\ProdPage\ProdPage\extra-files\chromedriver.exe
-B
-
-===============================================
-Command line suite
-Total tests run: 1, Failures: 0, Skips: 0
-===============================================
-
