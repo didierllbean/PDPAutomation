@@ -68,12 +68,13 @@ public class NewPDP extends Util.Settings implements PDP {
 			hasSwatches = true;
 			
 			int removePosition = styleAttr.indexOf("&defaultImage");
-			String url = styleAttr.substring(4, styleAttr.indexOf('?')+1);
+			String url = styleAttr.substring(5, styleAttr.indexOf('?')+1);
 			String params = styleAttr.substring(styleAttr.indexOf('?')+1,removePosition);
 			params = params.replace('{', '(');
 			params = params.replace('}', ')');
 			
 			String fullURL = url+params;
+			System.out.println(url+" "+params);
 			workingSwatches = brokenSwatchesNew(fullURL);
 			
 			if(!workingSwatches){
