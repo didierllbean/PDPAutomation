@@ -1,9 +1,9 @@
 package defaultPackage;
-
+/*
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
-import java.net.URLEncoder;
+import java.net.URLEncoder;*/
 import java.util.List;
 
 import org.apache.http.Header;
@@ -194,5 +194,16 @@ public class OldPDP extends Util.Settings implements PDP {
 			* therefore, the product is available */
 		}
 		return prodAvailable;
+	}
+	
+	public boolean P6Validation(){
+		Boolean P6 = true;
+		
+		try{
+			driver.findElement(By.xpath(Selector.OP6));
+		}catch (NoSuchElementException n) {
+			Reporter.log("<span style=\"color:red\">P6 not found</span><br>");
+		}
+		return P6;
 	}
 }

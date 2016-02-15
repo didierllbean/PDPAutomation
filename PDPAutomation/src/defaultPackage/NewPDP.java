@@ -11,6 +11,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Reporter;
+import org.openqa.selenium.JavascriptExecutor;
+
+
 
 /*Code to check the new Product Pages*/
 public class NewPDP extends Util.Settings implements PDP {
@@ -49,8 +52,16 @@ public class NewPDP extends Util.Settings implements PDP {
 	public boolean validateSizeChart() {
 		Boolean sizeChart = false;
 		try {
-			driver.findElement(By.partialLinkText(Selector.NEWSCHART));
-			sizeChart = true;
+			/*Validates if the product page needs  Size Chart*/
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			Boolean element = (Boolean)js.executeScript("return pdpJson.displaySizeChart");
+			
+				if(element == true)
+				{
+				driver.findElement(By.partialLinkText(Selector.NEWSCHART));
+				sizeChart = true;
+				} return sizeChart;
+			
 		} catch (NoSuchElementException n) {
 			/*If the block goes to the exception, it means that the css selector is not present,
 			* therefore, the size chart is not present */
@@ -64,11 +75,12 @@ public class NewPDP extends Util.Settings implements PDP {
 		boolean hasSwatches = false;
 		boolean workingSwatches = true;
 		try{
-			String styleAttr = driver.findElement(By.cssSelector(Selector.NEWSWATCHES)).getCssValue("background-image");
+			String styleAttr = driver.findElement(By.className("swatch-bg-0")).getCssValue("background-image");
 			hasSwatches = true;
 			
+			
 			int removePosition = styleAttr.indexOf("&defaultImage");
-			String url = styleAttr.substring(4, styleAttr.indexOf('?')+1);
+			String url = styleAttr.substring(5, styleAttr.indexOf('?')+1);
 			String params = styleAttr.substring(styleAttr.indexOf('?')+1,removePosition);
 			params = params.replace('{', '(');
 			params = params.replace('}', ')');
@@ -76,9 +88,13 @@ public class NewPDP extends Util.Settings implements PDP {
 			String fullURL = url+params;
 			workingSwatches = brokenSwatchesNew(fullURL);
 			
-			if(!workingSwatches){
-				Reporter.log("<span style=\"color:red\">Swatches are broken</span><br>");
-			}
+				driver.findElement(By.className("item-color")).click();
+				
+				String elementX = driver.findElement(By.className("display")).getText();
+				if(elementX == "")
+				{
+					Reporter.log("<span style=\"color:red\">Swatches are broken</span><br>");
+				}return workingSwatches;			
 			
 		}catch(Exception n){
 			n.printStackTrace();
@@ -191,6 +207,7 @@ public class NewPDP extends Util.Settings implements PDP {
 		}
 		return prodAvailable;
 	}
+
 
 
 }

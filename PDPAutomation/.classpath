@@ -2,7 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="//CRSJBO-FS/UserData$/ecoronado/Desktop/jars/selenium-java-2.41.0.jar"/>
-	<classpathentry kind="lib" path="//CRSJBO-FS/UserData$/ecoronado/Desktop/jars/selenium-server-standalone-2.47.1.jar"/>
+	<classpathentry kind="lib" path="//CRSJBO-FS/UserData$/ecoronado/My Documents/Automation/jars/java-json.jar"/>
+	<classpathentry kind="lib" path="//CRSJBO-FS/UserData$/ecoronado/My Documents/Automation/jars/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="//CRSJBO-FS/UserData$/ecoronado/My Documents/Automation/jars/selenium-server-standalone-2.47.1.jar"/>
+	<classpathentry kind="lib" path="//CRSJBO-FS/UserData$/ecoronado/My Documents/Automation/jars/selenium-2.47.1/selenium-java-2.47.1-srcs.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
