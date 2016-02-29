@@ -83,6 +83,7 @@ public class TestingProductPage extends Util.Settings {
 				newpdp.verifySwatches();
 				newpdp.verifyImage(pageNumber);
 				newpdp.validateCopyExist();
+				newpdp.salePrice(pageNumber);
 				
 				
 			}

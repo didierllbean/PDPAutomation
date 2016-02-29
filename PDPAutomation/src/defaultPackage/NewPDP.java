@@ -208,6 +208,30 @@ public class NewPDP extends Util.Settings implements PDP {
 		return prodAvailable;
 	}
 
+	public boolean salePrice(String pageNumber){
+		Boolean salePr = true;
+		
+		try{
+			
+			//looks for the product item inside the product page
+			String PPItem = driver.findElement(By.xpath("//*[@id='product-item-"+pageNumber+"']/div[1]/span")).getText();
+			PPItem = PPItem.substring(2);
+			//Using the product item number the price classes are searched
+			String Price = driver.findElement(By.xpath("//*[@id='item-order-box-"+PPItem+"-0']/div[2]/span")).getAttribute("class");
+		
+			
+			if(Price.contains("item-price-regular"))
+				return salePr;
+			else{
+				driver.findElement(By.className("item-price-reduced"));
+				salePr = false;
+			}
+			
+		} catch (NoSuchElementException n){
+			Reporter.log("<span style=\"color:red\">Sale Price Not available</span><br>");
+		}
+		return salePr;
+	}
 
 
 }
