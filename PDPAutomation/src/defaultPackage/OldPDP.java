@@ -64,7 +64,7 @@ public class OldPDP extends Util.Settings implements PDP {
 
 	}
 	
-	public boolean verifySwatches() {
+	public void verifySwatches() {
 		boolean hasSwatches = false;
 		boolean workingSwatches = true;
 		try{
@@ -89,7 +89,7 @@ public class OldPDP extends Util.Settings implements PDP {
 			Reporter.log("<span style=\"color:red\">Swatches are not present</span><br>");
 		}
 		
-		return hasSwatches && workingSwatches;
+		;
 	}
 	
 	private boolean brokenSwatches(String url){
@@ -113,7 +113,7 @@ public class OldPDP extends Util.Settings implements PDP {
 	    	return false;
 	    }
 	}
-	
+
 	// Validates if the hero image and the alternate views are being displayed
 	public boolean verifyImage(String pageNumber) {
 		
@@ -205,5 +205,11 @@ public class OldPDP extends Util.Settings implements PDP {
 			Reporter.log("<span style=\"color:red\">P6 not found</span><br>");
 		}
 		return P6;
+	}
+
+	@Override
+	public void VerifySwatches() {
+		// TODO Auto-generated method stub
+		
 	}
 }

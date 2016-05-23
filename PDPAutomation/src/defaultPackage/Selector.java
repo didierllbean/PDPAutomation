@@ -15,7 +15,7 @@ public final class Selector {
 	public static final String OLDSWATCHES = "//*[@id=\"colorSwatchContainer0_0_0\"]/ul/li[2]/a";
     public static final String NEWSWATCHES = "//*[@id=\"ppOrderItemForm-0\"]/div[2]/div[2]/div/div/fieldset/legend/span/span[2]";
 	public static final String TABS_UL = "#ppItemTabs";
-	public static final String PROD_AVAIL = ".ppItemUnavailable";
+	public static final String PROD_AVAIL = "#item-order-box--0 > div.alert.alert-warning";
 	public static final String ITM_PRICE = ".ppItemPriceContainer";
 	public static final String SOLD_OUT = ".toOrderItemSalePriceMarkdown";
 	public static final String SCHART = ".btn_size_chart";

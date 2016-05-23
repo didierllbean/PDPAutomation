@@ -1,17 +1,38 @@
 package defaultPackage;
 
+
+
 import java.util.List;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
+import sun.misc.BASE64Encoder;
+import sun.misc.BASE64Decoder;
+
+import java.awt.image.BufferedImage;
+
+
+
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Reporter;
-import org.openqa.selenium.JavascriptExecutor;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+
+import java.net.URL; 
+import java.net.URLConnection;
+import java.io.File;
+
+
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.PixelGrabber;
 
 
 
@@ -71,70 +92,146 @@ public class NewPDP extends Util.Settings implements PDP {
 
 	}
 	
-	public boolean verifySwatches() {
-		boolean hasSwatches = false;
-		boolean workingSwatches = true;
-		try{
-			String styleAttr = driver.findElement(By.className("swatch-bg-0")).getCssValue("background-image");
-			hasSwatches = true;
-			
-			
-			int removePosition = styleAttr.indexOf("&defaultImage");
-			String url = styleAttr.substring(5, styleAttr.indexOf('?')+1);
-			String params = styleAttr.substring(styleAttr.indexOf('?')+1,removePosition);
-			params = params.replace('{', '(');
-			params = params.replace('}', ')');
-			
-			String fullURL = url+params;
-			workingSwatches = brokenSwatchesNew(fullURL);
-			
-				driver.findElement(By.className("item-color")).click();
-				
-				String elementX = driver.findElement(By.className("display")).getText();
-				if(elementX == "")
-				{
-					Reporter.log("<span style=\"color:red\">Swatches are broken</span><br>");
-				}return workingSwatches;			
-			
-		}catch(Exception n){
-			n.printStackTrace();
-			Reporter.log("<span style=\"color:red\">Swatches are not present</span><br>");
-		}
-		
-		return hasSwatches && workingSwatches;
-	}
-	
-	private boolean brokenSwatchesNew(String url){
-		
-		 boolean workingSwatches = false;
-		 try {
-			
-			HttpClient client = HttpClientBuilder.create().build();
-			HttpGet request = new HttpGet(url);
-			HttpResponse response = client.execute(request);
-			
-			Header[] header = response.getHeaders("Content-Type");
-			
-			workingSwatches = header[0].getValue().equals("image/jpeg")? true : false;
+	public static BufferedImage decodeToImage(String imageString) {
 
-			System.out.println(header[0]+" "+workingSwatches);
-			
-			return workingSwatches;
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    	return false;
-	    }
+        BufferedImage image = null;
+        byte[] imageByte;
+        try {
+            BASE64Decoder decoder = new BASE64Decoder();
+            imageByte = decoder.decodeBuffer(imageString);
+            ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+            image = ImageIO.read(bis);
+            bis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+    /**
+     * Encode image to string
+     * @param image The image to encode
+     * @param type jpeg, bmp, ...
+     * @return encoded string
+     */
+    public static String encodeToString(BufferedImage image, String type) {
+        String imageString = null;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+        try {
+            ImageIO.write(image, type, bos);
+            byte[] imageBytes = bos.toByteArray();
+
+            BASE64Encoder encoder = new BASE64Encoder();
+            imageString = encoder.encode(imageBytes);
+
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imageString;
+    }
+	
+ 
+	public void VerifySwatches(){
+		
+		  BufferedImage image = null;
+		  try {
+			  
+
+			  String ImagePath = driver.findElement(By.className("swatch-bg-0")).getCssValue("background-image");
+			  ImagePath = ImagePath.replace(ImagePath.substring(ImagePath.length()-1),"");
+			  ImagePath = ImagePath.replace(ImagePath.substring(ImagePath.length()-1),"");
+			  String url = ImagePath.substring(4, ImagePath.indexOf('?')+1);
+				String params = ImagePath.substring(ImagePath.indexOf('?')+1);
+				
+				
+				String fullURL = url;
+			  
+		      URL url2 = new URL(fullURL+params);
+		      // read the url
+		      URLConnection conn1 = url2.openConnection();
+		      conn1.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+		      InputStream in1 = conn1.getInputStream(); 
+		      image = ImageIO.read(in1);
+		      
+		      
+		      ImageIO.write(image, "jpg", new File(System.getProperty("user.dir")+"\\imagecompare.jpg"));
+		      
+		      /*
+		      BufferedImage imgMala = ImageIO.read(new File(System.getProperty("user.dir")+"\\PDPimagecompare.jpg"));
+		      BufferedImage imgWEB = ImageIO.read(new File(System.getProperty("user.dir")+"\\imagecompare.jpg"));
+		      
+		      String imgstr;
+		      String imgstr2;
+		      imgstr = encodeToString(imgMala, "png");
+		      imgstr2 = encodeToString(imgWEB, "png");
+	        
+		      if (imgstr.equals(imgstr2))
+		    	  Reporter.log("Swatches are broken");*/
+		      processImage(System.getProperty("user.dir")+"\\PDPimagecompare.jpg", System.getProperty("user.dir")+"\\imagecompare.jpg");
+		     
+		      
+
+		  } catch (IOException e) {
+		      e.printStackTrace();
+		  }
+
 	}
 	
+	public void processImage(String file1, String file2) {
+		@SuppressWarnings("unused")
+		Boolean MSwatch = false; 
+		
+		Image image1 = Toolkit.getDefaultToolkit().getImage(file1);
+		Image image2 = Toolkit.getDefaultToolkit().getImage(file2);
+		 
+		try {
+		 
+		PixelGrabber grab1 =new PixelGrabber(image1, 0, 0, -1, -1, false);
+		PixelGrabber grab2 =new PixelGrabber(image2, 0, 0, -1, -1, false);
+		 
+		int[] data1 = null;
+		 
+		if (grab1.grabPixels()) {
+		int width = grab1.getWidth();
+		int height = grab1.getHeight();
+		data1 = new int[width * height];
+		data1 = (int[]) grab1.getPixels();
+		}
+		 
+		int[] data2 = null;
+		 
+		if (grab2.grabPixels()) {
+		int width = grab2.getWidth();
+		int height = grab2.getHeight();
+		data2 = new int[width * height];
+		data2 = (int[]) grab2.getPixels();
+		}
+		MSwatch = java.util.Arrays.equals(data1, data2); 
+		
+		if(MSwatch = true)
+			Reporter.log("<span style=\"color:red\">Swatches are broken</span><br>");
+		//Reporter.log("Pixels equal: " + java.util.Arrays.equals(data1, data2));
+		 
+		} catch (InterruptedException e1) {
+		e1.printStackTrace();
+		}
+	
+		
+}
+	
+	
+
 	
 	// Validates if the hero image and the alternate views are being displayed
 	public boolean verifyImage(String pageNumber) {
 		Boolean HImage = true;
 		try {
 			//Obtains the src of the hero image
-			String heroImage = driver.findElement(
-					By.xpath("id('backImageSjElement4_img')"))
-					.getAttribute("src");
+			
+			String heroImage = driver.findElement(By.cssSelector("div[id='backImageSjElement4']>img[id='backImageSjElement4_img']")).getAttribute("src");
+					//.getAttribute("alt");
 
 			try {
 				//If the hero image link is broken
@@ -147,8 +244,8 @@ public class NewPDP extends Util.Settings implements PDP {
 			}
 			
 			//Obtains the alternate views
-			List<WebElement> AVimages = driver.findElements(By
-					.xpath("//*[@id='product-item-"+pageNumber+"']/article[2]/ul"));
+			List<WebElement> AVimages = driver.findElements(By.cssSelector("ul[class='item-media-alternate']>li"));
+			
 
 			/* Goes through the list of alternate views, checking if
 			 * any image is not available, then adding it to the reporter */
@@ -213,7 +310,7 @@ public class NewPDP extends Util.Settings implements PDP {
 		
 		try{
 			
-			//looks for the product item inside the product page
+			//looks for the product item inside the main price div 
 			String PPItem = driver.findElement(By.xpath("//*[@id='product-item-"+pageNumber+"']/div[1]/span")).getText();
 			PPItem = PPItem.substring(2);
 			//Using the product item number the price classes are searched
