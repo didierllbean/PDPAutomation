@@ -180,7 +180,7 @@ public class NewPDP extends Util.Settings implements PDP {
 	}
 	
 	public void processImage(String file1, String file2) {
-		@SuppressWarnings("unused")
+		
 		Boolean MSwatch = false; 
 		
 		Image image1 = Toolkit.getDefaultToolkit().getImage(file1);
@@ -210,7 +210,7 @@ public class NewPDP extends Util.Settings implements PDP {
 		}
 		MSwatch = java.util.Arrays.equals(data1, data2); 
 		
-		if(MSwatch = true)
+		if(MSwatch == true)
 			Reporter.log("<span style=\"color:red\">Swatches are broken</span><br>");
 		//Reporter.log("Pixels equal: " + java.util.Arrays.equals(data1, data2));
 		 
