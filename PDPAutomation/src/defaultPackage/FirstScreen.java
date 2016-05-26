@@ -40,7 +40,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 
 import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
+import java.awt.Color;
 
 public class FirstScreen extends JFrame implements Runnable {
 
@@ -66,8 +66,12 @@ public class FirstScreen extends JFrame implements Runnable {
 	}
 	
 	/* Create the frame. */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ })
 	public FirstScreen() {
+		setEnabled(true);
+		setForeground(Color.WHITE);
+		setBackground(Color.LIGHT_GRAY);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ecoronado\\Git\\PDPAutomation\\PDPAutomation\\src\\2016-03-15_1139.png_32x32.png"));
 		
 		setFont(new Font("Dialog", Font.PLAIN, 12));
 		
@@ -93,6 +97,7 @@ public class FirstScreen extends JFrame implements Runnable {
 		
 		//Sets up main panel
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -197,6 +202,7 @@ public class FirstScreen extends JFrame implements Runnable {
 		contentPane.add(lblPages);
 		
 		//Creates a comboBox to select the type of PDP desired
+		@SuppressWarnings("unused")
 		String[] options = {"Both PDP","Old PDP","New PDP"};
 		
 	}
