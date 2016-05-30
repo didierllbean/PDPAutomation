@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="1" passed="1">
+  <reporter-output>
+    <line>
+      <![CDATA[<br><b>Processing 1 pages from: http://ecwebs01.llbean.com/llb/shop/ </b><br>]]>
+    </line>
+    <line>
+      <![CDATA[<br>********* Processing page: <a href= " http://ecwebs01.llbean.com/llb/shop/114759 " target="_blank" >114759</a> *********<br>]]>
+    </line>
+    <line>
+      <![CDATA[********* Page: 114759 completed *****<br>]]>
+    </line>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="35177" started-at="2016-05-26T19:46:15Z" finished-at="2016-05-26T19:46:50Z">
+    <groups>
+    </groups>
+    <test name="Command line test" duration-ms="35177" started-at="2016-05-26T19:46:15Z" finished-at="2016-05-26T19:46:50Z">
+      <class name="defaultPackage.TestingProductPage">
+        <test-method status="PASS" signature="testSetUp()[pri:0, instance:defaultPackage.TestingProductPage@2554ad31]" name="testSetUp" is-config="true" duration-ms="5457" started-at="2016-05-26T13:46:15Z" finished-at="2016-05-26T13:46:20Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testSetUp -->
+        <test-method status="PASS" signature="test()[pri:0, instance:defaultPackage.TestingProductPage@2554ad31]" name="test" duration-ms="29591" started-at="2016-05-26T13:46:20Z" finished-at="2016-05-26T13:46:50Z">
+          <reporter-output>
+            <line>
+              <![CDATA[<br><b>Processing 1 pages from: http://ecwebs01.llbean.com/llb/shop/ </b><br>]]>
+            </line>
+            <line>
+              <![CDATA[<br>********* Processing page: <a href= " http://ecwebs01.llbean.com/llb/shop/114759 " target="_blank" >114759</a> *********<br>]]>
+            </line>
+            <line>
+              <![CDATA[********* Page: 114759 completed *****<br>]]>
+            </line>
+          </reporter-output>
+        </test-method> <!-- test -->
+      </class> <!-- defaultPackage.TestingProductPage -->
+    </test> <!-- Command line test -->
+  </suite> <!-- Command line suite -->
+</testng-results>

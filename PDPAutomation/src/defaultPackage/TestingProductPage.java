@@ -1,12 +1,9 @@
 package defaultPackage;
 
 import java.io.IOException;
-import java.util.LinkedHashSet;
+
 import java.util.Set;
 
-import javax.swing.JOptionPane;
-
-import org.openqa.selenium.Cookie;
 import org.testng.Reporter;
 import org.testng.annotations.Test;
 
@@ -25,13 +22,13 @@ public class TestingProductPage extends Util.Settings {
 		driver.get(url+0);
 		
 		//Checks if it needs to process both PDP
-		boolean bothPDP = processBothPDP();
+		//boolean bothPDP = processBothPDP();
 		
 		//Creates the PDP to be used with either old, new or both
-		PDP pdp;
+		//PDP pdp;
 		//Creates a second set of product pages in case of have to do it for both pdp 
-		Set<String> productPages2 = new LinkedHashSet<String>();
-		
+		//Set<String> productPages2 = new LinkedHashSet<String>();
+		/*
 		if(bothPDP){
 			//Fills the second set of data
 			productPages2.addAll(productPages);
@@ -41,14 +38,14 @@ public class TestingProductPage extends Util.Settings {
 			
 		}else{
 			//Checks if the cookie is set to evaluate new or old PDP, and sets the cookie
-			pdp = (llbssCookieValue.equals("A"))? new OldPDP() : new NewPDP();
+		pdp = (llbssCookieValue.equals("A"))? new OldPDP() : new NewPDP();
 			setLLBSSCookie(llbssCookieValue);
 		}
+		*/
+		Reporter.log("<br><b>Processing " + productPages.size() +" pages from: " + url +" </b><br>");
 		
-		Reporter.log("<br><b>Processing " + productPages.size() +" pages from: " + url + " with " + pdp.getPDPType() +" </b><br>");
-		
-		process(pdp,productPages,url);
-		
+		process(productPages,url);
+		/*
 		if(bothPDP){
 			//After doing oldPDP now it can start with newPDP
 			pdp = new NewPDP();
@@ -58,10 +55,10 @@ public class TestingProductPage extends Util.Settings {
 			process(pdp,productPages2,url);
 		}
 
-		Reporter.log("<br>END OF AUTOMATION");
+		Reporter.log("<br>END OF AUTOMATION");*/
 	}
 
-	private void process(PDP pdp, Set<String> pages, String url){
+	private void process(Set<String> pages, String url){
 		
 		for (String pageNumber : pages){
 			
@@ -76,14 +73,19 @@ public class TestingProductPage extends Util.Settings {
 					+ "</a> *********<br>");
 			
 			//Validates the page
-			if (isPageAvailable() == true) {
+			if (isPageAvailable() == true ) {
 				
-				pdp.inStock();
-				pdp.isProductAvailable();
-				pdp.validateSizeChart();
-				pdp.validateBreadcrum();
-				pdp.verifyImage(pageNumber);
-				pdp.validateCopyExist();
+				NewPDP newpdp = new NewPDP();
+				if (newpdp.isProductAvailable() == true){
+				
+					newpdp.VerifySwatches();
+					newpdp.inStock();
+					newpdp.validateSizeChart();
+					newpdp.validateBreadcrum();
+					newpdp.verifyImage(pageNumber);
+					newpdp.validateCopyExist();
+					newpdp.salePrice(pageNumber);
+				}
 				
 			}
 			
@@ -92,13 +94,13 @@ public class TestingProductPage extends Util.Settings {
 		}
 	}
 	
-	
+	/*
 	private boolean processBothPDP(){
 		/* Sets the LLBSS cookie that changes
 		 * from the old PDP to the new PDP
 		 * A = old. B= new. */
 		
-		/*If cookie is set to BOTH, it means that both pdp have to be processed */
+		/*If cookie is set to BOTH, it means that both pdp have to be processed 
 		return llbssCookieValue.equals("BOTH");
 	}
 	
@@ -112,7 +114,7 @@ public class TestingProductPage extends Util.Settings {
 		}
 	}
 	
-	
+	*/
 	private boolean isPageAvailable() {
 		Boolean available = true;
 		String notAvailTitle = "L.L.Bean: Page Not Available";
@@ -124,5 +126,7 @@ public class TestingProductPage extends Util.Settings {
 		}
 		return available;
 	}
+	
+	
 
 }

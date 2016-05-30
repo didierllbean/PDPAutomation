@@ -38,6 +38,7 @@ public class Settings {
 		}
 		
 		//Sets up the Chrome driver
+		
 		String url = System.getProperty("user.dir")+"\\extra-files\\chromedriver.exe";
 		System.setProperty("webdriver.chrome.driver", url);
 		System.out.println("Driver found in: "+System.getProperty("webdriver.chrome.driver"));

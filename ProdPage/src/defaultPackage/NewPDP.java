@@ -2,11 +2,6 @@ package defaultPackage;
 
 import java.util.List;
 
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -59,56 +54,6 @@ public class NewPDP extends Util.Settings implements PDP {
 		return sizeChart;
 
 	}
-	
-	public boolean verifySwatches() {
-		boolean hasSwatches = false;
-		boolean workingSwatches = true;
-		try{
-			String styleAttr = driver.findElement(By.cssSelector(Selector.NEWSWATCHES)).getCssValue("background-image");
-			hasSwatches = true;
-			
-			int removePosition = styleAttr.indexOf("&defaultImage");
-			String url = styleAttr.substring(5, styleAttr.indexOf('?')+1);
-			String params = styleAttr.substring(styleAttr.indexOf('?')+1,removePosition);
-			params = params.replace('{', '(');
-			params = params.replace('}', ')');
-			
-			String fullURL = url+params;
-			System.out.println(url+" "+params);
-			workingSwatches = brokenSwatchesNew(fullURL);
-			
-			if(!workingSwatches){
-				Reporter.log("<span style=\"color:red\">Swatches are broken</span><br>");
-			}
-			
-		}catch(Exception n){
-			n.printStackTrace();
-			Reporter.log("<span style=\"color:red\">Swatches are not present</span><br>");
-		}
-		
-		return hasSwatches && workingSwatches;
-	}
-	
-	private boolean brokenSwatchesNew(String url){
-		
-		 boolean workingSwatches = false;
-		 try {
-			
-			HttpClient client = HttpClientBuilder.create().build();
-			HttpGet request = new HttpGet(url);
-			HttpResponse response = client.execute(request);
-			
-			Header[] header = response.getHeaders("Content-Type");
-			
-			workingSwatches = header[0].getValue().equals("image/jpeg")? true : false;
-
-			return workingSwatches;
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    	return false;
-	    }
-	}
-	
 	
 	// Validates if the hero image and the alternate views are being displayed
 	public boolean verifyImage(String pageNumber) {
@@ -190,6 +135,4 @@ public class NewPDP extends Util.Settings implements PDP {
 		}
 		return prodAvailable;
 	}
-
-
 }

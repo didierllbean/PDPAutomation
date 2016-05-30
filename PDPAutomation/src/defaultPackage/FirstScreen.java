@@ -19,6 +19,7 @@ import Util.Settings;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JTextPane;
+
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -33,10 +34,13 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
+import java.awt.Color;
 
 public class FirstScreen extends JFrame implements Runnable {
 
@@ -49,8 +53,6 @@ public class FirstScreen extends JFrame implements Runnable {
 	JButton btnTestProd;
 	JButton btnTestStage;
 	String temp = "";
-	@SuppressWarnings("rawtypes")
-	JComboBox comboBox;
 	private JLabel lblPages;
 
 	@Override
@@ -64,8 +66,12 @@ public class FirstScreen extends JFrame implements Runnable {
 	}
 	
 	/* Create the frame. */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ })
 	public FirstScreen() {
+		setEnabled(true);
+		setForeground(Color.WHITE);
+		setBackground(Color.LIGHT_GRAY);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\ecoronado\\Git\\PDPAutomation\\PDPAutomation\\src\\2016-03-15_1139.png_32x32.png"));
 		
 		setFont(new Font("Dialog", Font.PLAIN, 12));
 		
@@ -91,6 +97,7 @@ public class FirstScreen extends JFrame implements Runnable {
 		
 		//Sets up main panel
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -194,23 +201,14 @@ public class FirstScreen extends JFrame implements Runnable {
 		lblPages.setBounds(22, 13, 56, 26);
 		contentPane.add(lblPages);
 		
-		JLabel lblProductPages = new JLabel("Type of Product Pages:");
-		lblProductPages.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblProductPages.setBounds(32, 337, 171, 19);
-		contentPane.add(lblProductPages);
-		
 		//Creates a comboBox to select the type of PDP desired
+		@SuppressWarnings("unused")
 		String[] options = {"Both PDP","Old PDP","New PDP"};
-		comboBox = new JComboBox(options);
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		comboBox.setSelectedIndex(0);
-		comboBox.setBounds(226, 335, 133, 22);
-		contentPane.add(comboBox);
 		
 	}
 	
 	private void proceed(){
-		selectedPDP();
+		//selectedPDP();
 		divideAndClean();
 		if(hasValidPageNumbersOnly()){
 			setGlobal();
@@ -222,6 +220,7 @@ public class FirstScreen extends JFrame implements Runnable {
 		}
 	}
 	
+	/*
 	private void selectedPDP(){
 		String value = (String)comboBox.getSelectedItem();
 		String cookie;
@@ -238,7 +237,7 @@ public class FirstScreen extends JFrame implements Runnable {
 		}
 		Util.Settings.llbssCookieValue = cookie;
 	}
-	
+	*/
 	private void finish(){
 		//After it's done, tries to open the html file
 		String url = System.getProperty("user.dir")+"/test-output/index.html";
